@@ -9,16 +9,15 @@ test('go to /', async ({ page }) => {
 });
 
 test('test 404', async ({ page }) => {
-  const res = await page.goto('/post/not-found');
+  const res = await page.goto('/player/not-found');
   expect(res?.status()).toBe(404);
 });
 
-test('add a post', async ({ page, browser }) => {
+test('add a player', async ({ page, browser }) => {
   const nonce = `${Math.random()}`;
 
   await page.goto('/');
-  await page.fill(`[name=title]`, nonce);
-  await page.fill(`[name=text]`, nonce);
+  await page.fill(`[name=name]`, nonce);
   await page.click(`form [type=submit]`);
   await page.waitForLoadState('networkidle');
   await page.reload();
@@ -35,12 +34,11 @@ test('add a post', async ({ page, browser }) => {
 });
 
 test('server-side rendering test', async ({ page, browser }) => {
-  // add a post
+  // add a player
   const nonce = `${Math.random()}`;
 
   await page.goto('/');
-  await page.fill(`[name=title]`, nonce);
-  await page.fill(`[name=text]`, nonce);
+  await page.fill(`[name=name]`, nonce);
   await page.click(`form [type=submit]`);
   await page.waitForLoadState('networkidle');
 
