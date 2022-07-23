@@ -1,7 +1,6 @@
 {
-  "name": "@examples/next-starter",
-  "version": "9.26.2",
-  "private": true,
+  "name": "rare",
+  "version": "1.0.0",
   "scripts": {
     "build:1-migrate": "prisma migrate deploy",
     "build:2-build": "next build",

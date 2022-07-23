@@ -3,7 +3,7 @@ on: [push]
 jobs:
   e2e:
     env:
-      DATABASE_URL: postgresql://postgres:@localhost:5432/trpcdb
+      DATABASE_URL: postgresql://postgres:@localhost:5432/raredb
       NODE_ENV: test
       NEXTAUTH_SECRET: supersecret
     runs-on: ${{ matrix.os }}
@@ -16,7 +16,7 @@ jobs:
         image: postgres:12.1
         env:
           POSTGRES_USER: postgres
-          POSTGRES_DB: trpcdb
+          POSTGRES_DB: raredb
         ports:
           - 5432:5432
     steps:
