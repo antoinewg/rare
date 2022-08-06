@@ -1,15 +1,14 @@
 import { trpc } from '../utils/trpc';
 import { NextPageWithLayout } from './_app';
-import Link from 'next/link';
+import NextLink from 'next/link';
+import { Button, Card, Col, Row, Text } from '@nextui-org/react';
 
 const IndexPage: NextPageWithLayout = () => {
   const utils = trpc.useContext();
   const playersQuery = trpc.useQuery(['player.all']);
+
   const addPlayer = trpc.useMutation('player.add', {
-    async onSuccess() {
-      // refetches players after a player is added
-      await utils.invalidateQueries(['player.all']);
-    },
+    onSuccess: async () => await utils.invalidateQueries(['player.all']),
   });
 
   return (
@@ -19,13 +18,62 @@ const IndexPage: NextPageWithLayout = () => {
         Players
         {playersQuery.status === 'loading' && '...'}
       </h2>
-      {playersQuery.data?.map((item) => (
-        <article key={item.id}>
-          <h3>{item.name}</h3>
-          <Link href={`/player/${item.id}`}>
-            <a>View more</a>
-          </Link>
-        </article>
+      {playersQuery.data?.map((item, index) => (
+        <Card key={item.id} css={{ maxWidth: 260, m: 24 }}>
+          <Card.Header css={{ position: 'absolute', zIndex: 1, top: 5 }}>
+            <Col>
+              <Text h4 color="white" weight="bold" transform="uppercase">
+                {item.name}
+              </Text>
+            </Col>
+          </Card.Header>
+          <Card.Image
+            src={`https://nextui.org/images/card-example-${
+              1 + (index % 3)
+            }.jpeg`}
+            objectFit="cover"
+            width="100%"
+            height={420}
+            alt={item.name}
+          />
+          <Card.Footer
+            isBlurred
+            css={{
+              position: 'absolute',
+              bgBlur: '#ffffff66',
+              borderTop: '$borderWeights$light solid rgba(255, 255, 255, 0.2)',
+              bottom: 0,
+              zIndex: 1,
+            }}
+          >
+            <Row>
+              <Col>
+                <Text color="#000" size={12}>
+                  Available soon.
+                </Text>
+                <Text color="#000" size={12}>
+                  Get notified.
+                </Text>
+              </Col>
+              <Col>
+                <Row justify="flex-end">
+                  <NextLink href={`/player/${item.id}`}>
+                    <Button flat auto rounded color="default">
+                      <Text
+                        css={{ color: 'inherit' }}
+                        size={12}
+                        weight="bold"
+                        transform="uppercase"
+                      >
+                        View more
+                      </Text>
+                    </Button>
+                  </NextLink>
+                </Row>
+              </Col>
+            </Row>
+          </Card.Footer>
+        </Card>
       ))}
 
       <hr />
