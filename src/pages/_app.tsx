@@ -18,7 +18,9 @@ type AppPropsWithLayout = AppProps & {
 };
 
 const MyApp = (({ Component, pageProps }: AppPropsWithLayout) => (
-  <NextUIProvider>{<Component {...pageProps} />}</NextUIProvider>
+  <NextUIProvider>
+    <Component {...pageProps} />
+  </NextUIProvider>
 )) as AppType;
 
 function getBaseUrl() {
