@@ -6,8 +6,8 @@ import { AppProps } from 'next/app';
 import { AppType } from 'next/dist/shared/lib/utils';
 import { ReactElement, ReactNode } from 'react';
 import superjson from 'superjson';
-import { DefaultLayout } from '~/components/DefaultLayout';
 import { AppRouter } from '~/server/routers/_app';
+import { NextUIProvider } from '@nextui-org/react';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -17,12 +17,9 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-const MyApp = (({ Component, pageProps }: AppPropsWithLayout) => {
-  const getLayout =
-    Component.getLayout ?? ((page) => <DefaultLayout>{page}</DefaultLayout>);
-
-  return getLayout(<Component {...pageProps} />);
-}) as AppType;
+const MyApp = (({ Component, pageProps }: AppPropsWithLayout) => (
+  <NextUIProvider>{<Component {...pageProps} />}</NextUIProvider>
+)) as AppType;
 
 function getBaseUrl() {
   if (typeof window !== 'undefined') {
